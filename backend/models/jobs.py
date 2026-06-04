@@ -1,3 +1,10 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from models.user import User
+
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime, timezone
@@ -5,7 +12,6 @@ from typing import Optional
 from sqlalchemy import Enum as SAEnum
 from models.enums import JobStatus
 from db.database import Base
-from models.user import User
 
 # Job model for a jobs table in the database, with a foreign key mapping each job to the corresponding user
 class Job(Base):
