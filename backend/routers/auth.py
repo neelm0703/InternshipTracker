@@ -1,7 +1,6 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Request, Cookie
 from fastapi.responses import RedirectResponse
-from requests import request
 from sqlalchemy.orm import Session
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import Flow

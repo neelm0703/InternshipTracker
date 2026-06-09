@@ -1,5 +1,7 @@
 #TODO: Remove these line once we have HTTPS setup for production
 import os
+
+from fastapi.responses import RedirectResponse
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 
@@ -7,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from db.database import Base, engine
-from routers import auth
+from routers import auth, jobs
 from starlette.middleware.sessions import SessionMiddleware
 from models.user import User
 from models.jobs import Job
@@ -37,6 +39,11 @@ app.add_middleware(
 
 # Including routers defined in routes/ 
 app.include_router(auth.router)
+app.include_router(jobs.router)
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/auth/login")
 
 
 # Running FastAPI app with Uvicorn if script is run directly

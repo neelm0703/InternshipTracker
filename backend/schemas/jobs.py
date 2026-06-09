@@ -7,18 +7,20 @@ from models.enums import JobStatus
 class JobBase(BaseModel):
     company: str
     role: Optional[str]
-    source_email_id: str
     status: Optional[JobStatus]
     portal_url: Optional[str]
     notes: Optional[str]
     user_id: int
 
-class JobCreate(JobBase):
+class JobUpdate(JobBase):
     pass
+
+class JobCreate(JobBase):
+    source_email_id: str
 
 class JobResponse(JobBase):
     id: int
     created_at: datetime
-    last_updated_at: Optional[datetime]
+    last_updated: Optional[datetime]
 
     model_config = {"from_attributes": True}
