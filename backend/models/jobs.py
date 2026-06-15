@@ -20,12 +20,12 @@ class Job(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     company: Mapped[str]
-    role: Mapped[Optional[str]]
+    role: Mapped[str]
     status: Mapped[Optional[JobStatus]] = mapped_column(SAEnum(JobStatus), nullable=True)
     portal_url: Mapped[Optional[str]]
     notes: Mapped[Optional[str]]
     last_updated: Mapped[Optional[datetime]]
-    source_email_id: Mapped[str] = mapped_column(unique=True)
+    source_email_id: Mapped[Optional[str]] = mapped_column(unique=True, nullable=True)
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
 
     user: Mapped["User"] = relationship("User", back_populates="jobs")

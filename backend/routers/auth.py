@@ -1,11 +1,12 @@
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Request, Cookie
+from fastapi import APIRouter, Depends, HTTPException, Request, Cookie, Response
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import Flow
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
+from schemas.user import UserResponse
 from db.database import get_db
 from models.user import User
 from core.config import settings
@@ -147,3 +148,19 @@ def oauth2callback(request: Request, db: Session = Depends(get_db), code: Option
         max_age=60 * 60 * 24 * 7  # 7 days in seconds
     )
     return response
+
+
+
+@router.get("/me", response_model=UserResponse)
+def get_user(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie(
+        key="jwt_token",
+        httponly=True,
+        secure=False,    # TODO: set to True in production, False now as localhost is http 
+        samesite="lax"
+    )

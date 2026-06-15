@@ -10,17 +10,17 @@ class JobBase(BaseModel):
     status: Optional[JobStatus]
     portal_url: Optional[str]
     notes: Optional[str]
-    user_id: int
 
 class JobUpdate(JobBase):
     pass
 
 class JobCreate(JobBase):
-    source_email_id: str
+    source_email_id: Optional[str] = None
 
 class JobResponse(JobBase):
     id: int
     created_at: datetime
     last_updated: Optional[datetime]
+    user_id: int
 
     model_config = {"from_attributes": True}
